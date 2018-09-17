@@ -20,7 +20,7 @@ export class ClientDetailsComponent implements OnInit {
     private clientService: ClientService,
     private router: Router,
     private route: ActivatedRoute,
-    private frashMessage: FlashMessagesService,
+    private flashMessage: FlashMessagesService,
   ) { }
 
   ngOnInit() {
@@ -33,7 +33,9 @@ export class ClientDetailsComponent implements OnInit {
         this.hasBalance = client.balance === 0 ? false : true;
       } else {
         this.client = null;
-        this.frashMessage.show("This client does not exist any more.", {cssClass: 'alert-danger', timeout: 3000});
+        this.flashMessage.show("This client does not exist any more.", {cssClass: 'alert-danger', timeout: 2000});
+        // Redirect to dashboard
+        this.router.navigate(['/'])
       }
     });
   }
@@ -42,6 +44,22 @@ export class ClientDetailsComponent implements OnInit {
     this.client.balance = balance;
     this.clientService.updateClient(this.client);
     this.showBalanceUpdateInput = false;
-    this.frashMessage.show('Balance updated', {cssClass: 'alert-success', timeout: 2000})
+    this.flashMessage.show('Balance updated', {cssClass: 'alert-success', timeout: 2000})
+  }
+
+  onDeleteClient() {
+    if (this.client.balance === 0) {
+      if (confirm("Are you sure to delete " + this.client.firstName + "'s record? . . .")) {
+        this.clientService.deleteClient(this.client);
+        this.flashMessage.show(this.client.firstName + "'s record was deleted ...", { cssClass: 'alert-success', timeout: 2000});
+        // Redirect to dashboard
+        this.router.navigate(['/'])
+      } else {
+        this.flashMessage.show("Deleting was canceled by user.", {
+          cssClass: 'alert-danger', timeout: 2000});
+      }
+    } else {
+      this.flashMessage.show("Fail to delete " + this.client.firstName + "' record. Balance is not Zero.", {cssClass: 'alert-danger', timeout: 2000});
+    }
   }
 }
