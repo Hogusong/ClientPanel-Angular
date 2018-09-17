@@ -26,9 +26,7 @@ export class AddClientComponent implements OnInit {
 
   onSubmit({ value, valid }: {value: Client, valid: boolean}) {
     value.phone = value.phone? value.phone : '';
-    if (this.disableBalcnceOnAdd || !value.balance){
-      value.balance = 100;
-    } 
+    value.balance = value.balance? value.balance : 0;
 
     if (!valid) {
       // Show error
