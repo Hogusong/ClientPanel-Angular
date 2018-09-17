@@ -33,8 +33,15 @@ export class ClientDetailsComponent implements OnInit {
         this.hasBalance = client.balance === 0 ? false : true;
       } else {
         this.client = null;
-        this.frashMessage.show("This client does not exist any more.", 3000);
+        this.frashMessage.show("This client does not exist any more.", {cssClass: 'alert-danger', timeout: 3000});
       }
     });
+  }
+
+  updateBalance(balance: number) {
+    this.client.balance = balance;
+    this.clientService.updateClient(this.client);
+    this.showBalanceUpdateInput = false;
+    this.frashMessage.show('Balance updated', {cssClass: 'alert-success', timeout: 2000})
   }
 }

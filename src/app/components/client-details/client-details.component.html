@@ -22,7 +22,29 @@
       </div>
 
       <div class="cold-md-8 col-sm-6">
-        @TODO - BALANCE
+        <p class="pull-right">
+          BALANCE
+          <span 
+            [class.text-danger]="hasBalance"
+            [class.text-success]="!hasBalance">
+            {{ client.balance | currency : "USD" : "symbol" }}
+          </span>
+          <small>
+            <a (click)="showBalanceUpdateInput = !showBalanceUpdateInput">
+              <i class="fa fa-pencil"></i>
+            </a>
+          </small>
+        </p>
+        <div class="clearfix">
+          <form *ngIf="showBalanceUpdateInput" (submit)="updateBalance(balance)">
+            <div class="input-group">
+              <input type="number" name="balance" class="form-control" [(ngModel)]="balance">
+              <span class="input-broup-btn">
+                <button type="submit" class="btn btn-primary">Update</button>
+              </span>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
     <hr>
