@@ -23,6 +23,6 @@ export class AuthService {
   }
 
   logout() {
-    // this.afAuth.auth.onAuthStateChanged()
+    this.afAuth.auth.signOut()
   }
 }

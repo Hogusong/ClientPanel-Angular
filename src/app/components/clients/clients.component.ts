@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '../../models/models';
 import { ClientService } from '../../services/client.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-clients',
@@ -11,13 +12,23 @@ export class ClientsComponent implements OnInit {
   clients: Client[];
   totalBalance: number = 0;
 
-  constructor(private clientService: ClientService) { }
+  constructor(
+    private clientService: ClientService,
+    private authService: AuthService  
+  ) { }
 
   ngOnInit() {
-    this.clientService.getClients().subscribe(clients => {
-      this.clients = clients;
-      this.getTotalBalance()
-    });
+    this.authService.getAuth().subscribe(auth => {
+      if (auth) {
+        this.clientService.getClients().subscribe(clients => {
+          this.clients = clients;
+          this.getTotalBalance()
+        });    
+      } else {
+        this.clients = null;
+        this.totalBalance = 0;
+      }
+    })
   }
 
   getTotalBalance() {
