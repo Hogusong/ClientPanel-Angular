@@ -5,20 +5,25 @@ import { Settings } from '../models/models';
   providedIn: 'root'
 })
 export class SettingsService {
-  settings: Settings = {
+  settings: Settings  = {
     allowRegistration: false,
     disableBalanceOnAdd: true,
     disableBalanceOnEdit: true,
-    showBalanceUpdate: false
-  }
+    showBalanceUpdate: false        
+  };
 
-  constructor() { }
+  constructor() {
+    if (localStorage.getItem('settings')) {
+      this.settings = JSON.parse(localStorage.getItem('settings'));
+    }
+  }
 
   getSettings(): Settings {
     return this.settings;
   }
 
-  setSettings(settings: Settings) {
+  changeSettings(settings: Settings) {
     this.settings = settings;
+    localStorage.setItem('settings', JSON.stringify(this.settings));
   }
 }
