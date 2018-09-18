@@ -3,7 +3,8 @@ import { Router, ActivatedRoute, Params} from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 import { ClientService } from '../../services/client.service';
-import { Client } from '../../models/models';
+import { Client, Settings } from '../../models/models';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-client-details',
@@ -14,16 +15,18 @@ export class ClientDetailsComponent implements OnInit {
   id: string;
   client: Client;
   hasBalance: boolean = false;
-  showBalanceUpdateInput: boolean = false;
+  settings: Settings;
 
   constructor(
     private clientService: ClientService,
+    private settigsService: SettingsService,
     private router: Router,
     private route: ActivatedRoute,
     private flashMessage: FlashMessagesService,
   ) { }
 
   ngOnInit() {
+    this.settings = this.settigsService.getSettings();
     // Get id from url
     this.id = this.route.snapshot.params['id']
     // Get client
@@ -43,7 +46,7 @@ export class ClientDetailsComponent implements OnInit {
   updateBalance(balance: number) {
     this.client.balance = balance;
     this.clientService.updateClient(this.client);
-    this.showBalanceUpdateInput = false;
+    this.settings.showBalanceUpdate = false;
     this.flashMessage.show('Balance updated', {cssClass: 'alert-success', timeout: 2000})
   }
 

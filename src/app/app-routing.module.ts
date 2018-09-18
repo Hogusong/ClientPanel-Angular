@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { AuthGuard } from './guards/auth.guard';
+import { RegisterGuard } from './guards/register.guard';
 
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddClientComponent } from './components/add-client/add-client.component';
@@ -16,7 +17,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate:[AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
   { path: 'client/add', component: AddClientComponent, canActivate:[AuthGuard] },
   { path: 'client/edit/:id', component: EditClientComponent, canActivate:[AuthGuard] },
   { path: 'client/:id', component: ClientDetailsComponent, canActivate:[AuthGuard] },
@@ -29,6 +30,6 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes)
   ],
-  providers: [ AuthGuard ]
+  providers: [ AuthGuard, RegisterGuard ]
 })
 export class AppRoutingModule { }

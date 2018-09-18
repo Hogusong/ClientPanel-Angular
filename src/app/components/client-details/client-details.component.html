@@ -30,13 +30,14 @@
             {{ client.balance | currency : "USD" : "symbol" }}
           </span>
           <small>
-            <a (click)="showBalanceUpdateInput = !showBalanceUpdateInput">
+            <a (click)="settings.showBalanceUpdate = !settings.showBalanceUpdate">
               <i class="fa fa-pencil"></i>
             </a>
           </small>
         </p>
         <div class="clearfix">
-          <form *ngIf="showBalanceUpdateInput" (submit)="updateBalance(balance)">
+          <form *ngIf="settings.showBalanceUpdate" 
+                (submit)="updateBalance(balance)">
             <div class="input-group">
               <input type="number" name="balance" class="form-control" [(ngModel)]="balance">
               <span class="input-broup-btn">

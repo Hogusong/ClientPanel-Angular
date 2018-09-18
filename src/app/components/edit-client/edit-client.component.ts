@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params} from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
-import { Client } from '../../models/models';
+import { Client, Settings } from '../../models/models';
 import { ClientService } from '../../services/client.service';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-edit-client',
@@ -19,18 +20,21 @@ export class EditClientComponent implements OnInit {
     phone: '',
     balance: 0
   };
-  disableBalcnceOnAdd: boolean = false;
+  settings: Settings;
+  
   pattern = "[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?";
   @ViewChild('clientForm') form: any;
 
   constructor(
     private flashMessage: FlashMessagesService, 
     private clientService: ClientService,
+    private settingsService: SettingsService,
     private router: Router,
     private route: ActivatedRoute,
   ){ }
 
   ngOnInit() {
+    this.settings = this.settingsService.getSettings();
     // Get id from url
     this.id = this.route.snapshot.params['id']
     // Get client

@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FlashMessagesService } from 'angular2-flash-messages';
-
-import { Client } from '../../models/models';
-import { ClientService } from '../../services/client.service';
 import { Router } from '@angular/router';
+
+import { Client, Settings } from '../../models/models';
+import { ClientService } from '../../services/client.service';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
   selector: 'app-add-client',
@@ -11,17 +12,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-client.component.css']
 })
 export class AddClientComponent implements OnInit {
-  disableBalcnceOnAdd: boolean = false;
+  settings: Settings;
   pattern = "[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?";
   @ViewChild('clientForm') form: any;
 
   constructor(
     private flashMessage: FlashMessagesService, 
     private clientService: ClientService,
+    private settingsService: SettingsService,
     private router: Router
   ){ }
 
   ngOnInit() {
+    this.settings = this.settingsService.getSettings();
+    console.log(this.settings);
   }
 
   onSubmit({ value, valid }: {value: Client, valid: boolean}) {
