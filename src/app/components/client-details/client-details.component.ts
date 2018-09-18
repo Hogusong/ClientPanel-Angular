@@ -51,7 +51,7 @@ export class ClientDetailsComponent implements OnInit {
     if (this.client.balance === 0) {
       if (confirm("Are you sure to delete " + this.client.firstName + "'s record? . . .")) {
         this.clientService.deleteClient(this.client);
-        this.flashMessage.show(this.client.firstName + "'s record was deleted ...", { cssClass: 'alert-success', timeout: 2000});
+        this.flashMessage.show(this.client.firstName + "'s record was removed ...", { cssClass: 'alert-success', timeout: 2000});
         // Redirect to dashboard
         this.router.navigate(['/'])
       } else {

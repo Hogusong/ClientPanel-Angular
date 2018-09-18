@@ -10,6 +10,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ClientService } from './services/client.service';
+import { AuthService } from './services/auth.service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -48,7 +49,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     AngularFireAuthModule,
     FlashMessagesModule.forRoot()
   ],
-  providers: [ ClientService ],
+  providers: [ ClientService, AuthService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
